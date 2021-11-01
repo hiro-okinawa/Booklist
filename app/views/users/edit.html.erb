@@ -1,22 +1,4 @@
 <div class = 'text-center'>
   <h1><%= @user.name %> の編集ページ</h1>
 </div>
-<div class="row">
-  <div class="col-sm-6 offset-sm-3">
-
-    <%= form_with(model: @user) do |f| %>
-      <%= render 'layouts/error_messages', model: f.object %>
-      <div class="mb-3"
-        <%= f.label :name, 'Enter your new name' %>
-        <%= f.text_field :name, class: 'form-control'%>
-      </div>
-      <div class="mb-3"
-        <%= f.label :email, 'Enter your new email' %>
-        <%= f.text_field :email, class: 'form-control' %>
-      </div>
-
-      <%= f.submit '更新', class: 'btn btn-primary w-30'  %>
-    <% end %>
-  </div>
-</div>
-
+<%= render "form_for_user", user: @user %>

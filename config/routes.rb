@@ -12,11 +12,10 @@ Rails.application.routes.draw do
   
   resources :users, exept: [:index, :new, :show] do
     member do
-      resources :books, only: [:create, :destroy]
+      resources :books, only: [:index, :create, :update, :destroy]
       get :have_been_read
       get :now_reading
       get :wants_to_read
-      
     end
   end
 end

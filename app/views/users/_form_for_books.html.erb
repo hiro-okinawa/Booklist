@@ -1,16 +1,17 @@
 <div class="row">
   <div class="col-sm-4">
+    <h3>書籍登録フォーム</h3>
     <%= form_with(model: @book) do |f| %>
       <div class="mb-3">
-        <%= f.label :book_name, '本名' %>
-        <%= f.text_area :book_name, class: 'form-control', :placeholder => "本の名前を入力してください" %>
+        
+        <%= f.text_field :book_name, class: 'form-control', :placeholder => "本の名前を入力してください" %>
       </div>
       <div class="mb-3">
-        <%= f.label :author_name, '著者名' %>
-        <%= f.text_area :author_name, class: 'form-control', :placeholder => "著者名を入力してください"%>
+        
+        <%= f.text_field :author_name, class: 'form-control', :placeholder => "著者名を入力してください"%>
       </div>
-      <div class="mb-3 w-15">
-        <%= f.select :status, ["読んだ本", "今読んでいる本", "これから読みたい本"] %>
+      <div class="mb-3">
+        <%= f.select :status, ["読んだ", "今読んでいる", "これから読みたい"], class: 'form-control' %>
       </div> 
       
       <div class="mb-3">

@@ -2,29 +2,4 @@
   <h1>新規登録ページ</h1>
 </div>
 
-<div class="row">
-  <div class="col-sm-6 offset-sm-3">
-
-    <%= form_with(model: @user) do |f| %>
-      <%= render 'layouts/error_messages', model: f.object %>
-
-      <div class="mb-3">
-        <%= f.text_field :name, class: 'form-control', :placeholder => "名前を入力してください" %>
-      </div>
-
-      <div class="mb-3">
-        <%= f.email_field :email, class: 'form-control',:placeholder => "Eメールアドレスを入力してください"  %>
-      </div>
-
-      <div class="mb-3">
-        <%= f.password_field :password, class: 'form-control',:placeholder => "パスワードを入力してください" %>
-      </div>
-
-      <div class="mb-3">
-        <%= f.password_field :password_confirmation, class: 'form-control', :placeholder => "パスワード確認用" %>
-      </div>
-
-      <%= f.submit '新規登録', class: 'btn btn-primary w-100' %>
-    <% end %>
-  </div>
-</div>
+<%= render "form_for_user", user: @user %>

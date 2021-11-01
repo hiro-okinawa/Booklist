@@ -1,29 +1,46 @@
 class BooksController < ApplicationController
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy]
+  before_action :correct_user, only: [:update,:destroy]
 
-
+  def index
+  end
+  
   def create
-    set_user
     @book = current_user.books.build(book_params)
+    set_user
     
     if @book.save
       flash[:success] = '本を登録しました。'
       
-      if @book.status == "読んだ本"
-        redirect_to have_been_read_user_path(set_user)
-      elsif @book.status == "今読んでいる本"
-        redirect_to now_reading_user_path(set_user)
+      if @book.status == "読んだ"
+        redirect_to have_been_read_user_path(@user)
+      elsif @book.status == "今読んでいる"
+        redirect_to now_reading_user_path(@user)
       else
-        redirect_to wants_to_read_user_path(set_user)
+        redirect_to wants_to_read_user_path(@user)
       end
     
     else
-      @pagy, @books = pagy(current_user.books.where(status: "読んだ本"), items: 3)
       flash[:danger] = '本の登録に失敗しました。'
+      redirect_back(fallback_location: root_path)
+    end
+  end
+  
+  def update
+    if @book.update(book_params)
+      flash[:success] = '本の状態を更新しました。'
       
+      if @book.status == "読んだ"
+        redirect_to have_been_read_user_path(@book.user_id)
+      elsif @book.status == "今読んでいる"
+        redirect_to now_reading_user_path(@book.user_id)
+      else
+        redirect_to wants_to_read_user_path(@book.user_id)
+      end
       
-      render '/users/have_been_read', user: @user
+    else
+      flash[:danger] = '本の状態の更新に失敗しました。'
+      redirect_back(fallback_location: root_path)
     end
   end
 
@@ -36,7 +53,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:book_name, :author_name, :status)
+    params.require(:book).permit(:book_name, :author_name, :status).merge(user_id: current_user.id)
   end
   
   def correct_user
@@ -45,5 +62,4 @@ class BooksController < ApplicationController
       redirect_to root_url
     end
   end
-
 end

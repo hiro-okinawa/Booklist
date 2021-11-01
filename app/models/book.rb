@@ -4,4 +4,6 @@ class Book < ApplicationRecord
   validates :status, presence: true
   
   belongs_to :user
+  
+
 end

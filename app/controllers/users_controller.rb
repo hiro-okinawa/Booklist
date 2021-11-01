@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in, only: [:index, :show, :edit, :update, :destroy, :have_been_read, :now_reading, :wants_to_read]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :have_been_read, :now_reading, :wants_to_read]
+  before_action :set_book_form, only: [:show, :have_been_read, :now_reading, :wants_to_read]
   
   
   def index
@@ -8,8 +9,8 @@ class UsersController < ApplicationController
   end
   
   def show
-    set_book_form
-    @pagy, @books = pagy(@user.books.where(status: "読んだ本").order(id: :desc), items: 3)
+    set_books("読んだ")
+    counts(@user)
   end
   
   def new
@@ -48,33 +49,32 @@ class UsersController < ApplicationController
   end
   
   def have_been_read
-    set_book_form
-    @pagy, @books = pagy(@user.books.where(status: "読んだ本").order(id: :desc), items: 3)
-    
+    set_books("読んだ")
+    counts(@user)
   end
   
   def now_reading
-    set_book_form
-    @pagy, @books = pagy(@user.books.where(status: "今読んでいる本").order(id: :desc), items: 3)
-    
+    set_books("今読んでいる")
+    counts(@user)
   end
 
   def wants_to_read
-    set_book_form
-    @pagy, @books = pagy(@user.books.where(status: "これから読みたい本").order(id: :desc), items: 3)
-    
+    set_books("これから読みたい")
+    counts(@user)
   end
 
   private
+  
+  def set_books(status)
+    @pagy, @books = pagy(@user.books.where(status: status).order(id: :desc), items: 3)
+  end
   
   def set_book_form
     @book = current_user.books.build
   end
   
-  
-  
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
-
+  
 end
