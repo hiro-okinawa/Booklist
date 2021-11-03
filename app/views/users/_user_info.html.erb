@@ -32,16 +32,19 @@
           </td>
           <td><%= book.author_name %></td>
           <td>
+            
             <%= form_with(model: book) do |f| %>
-            <%= f.select :status, ["読んだ", "今読んでいる", "これから読みたい"], class: 'form-control' %>
-            <% if current_user == @user %>
-              <%= link_to "削除", "/users/#{@user.id}/books/#{book.id}", method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger rounded-pill btn-sm' %>
-              <%= f.submit '登録', class: 'btn btn-primary' %>
+              <% if current_user == @user %>
+                <%= f.select :status, ["読んだ", "今読んでいる", "これから読みたい"], class: 'form-control' %>
+                <%= link_to "削除", "/users/#{@user.id}/books/#{book.id}", method: :delete, data: { confirm: "本当に削除して宜しいですか?" }, class: 'btn btn-danger rounded-pill btn-sm' %>
+                <%= f.submit '登録', class: 'btn btn-primary rounded-pill btn-sm' %>
+              <% else %>
+                <%= book.status %>
+              <% end %>
             <% end %>
-        <% end %>
+          
           </td>
         </tr>
-        
         
         </div
     </div>

@@ -27,12 +27,10 @@ class BooksController < ApplicationController
   end
   
   def update
-    
-    
     if @book.update(book_params)
       flash[:success] = '本の状態を更新しました。'
       
-     
+     redirect_back(fallback_location: root_path)
     else
         flash[:danger] = '本の状態の更新に失敗しました。'
         redirect_back(fallback_location: root_path)

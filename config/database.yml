@@ -48,8 +48,11 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: Booklist_production
   username: Booklist
   password: <%= ENV['BOOKLIST_DATABASE_PASSWORD'] %>
